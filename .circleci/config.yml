@@ -44,7 +44,7 @@ jobs:
         yarn add
         yarn build
         cd build
-        zip ./build.zip -r * .[^.]*
+        zip ../build.zip -r * .[^.]*
         echo "Build successful"
    - run:
       name: Deploy to AWS S3
@@ -82,7 +82,7 @@ jobs:
         yarn add
         yarn build
         cd build
-        zip ./build.zip -r * .[^.]*
+        zip ../build.zip -r * .[^.]*
         echo "Build successful"
    - run:
       name: Deploy to AWS cloudfront
