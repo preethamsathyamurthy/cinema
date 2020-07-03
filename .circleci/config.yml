@@ -41,7 +41,7 @@ jobs:
    - run:
       name: Build Project
       command:
-        yarn install
+        yarn add
         yarn build
         cd build
         zip ../build.zip -r * .[^.]*
@@ -70,9 +70,6 @@ jobs:
       name: Show current branch
       command: echo ${CURRENT_BRANCH}
    - run:
-      name: Install yarn
-      command: npm install -g yarn
-   - run:
       name: Installing AWS CLI
       working_directory: /
       command: |
@@ -82,7 +79,7 @@ jobs:
    - run:
       name: Build Project
       command:
-        yarn install
+        yarn add
         yarn build
         cd build
         zip ../build.zip -r * .[^.]*
