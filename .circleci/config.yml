@@ -10,9 +10,6 @@ jobs:
    - run:
       name: Show current branch
       command: echo ${CURRENT_BRANCH}
-   - run:
-      name: Install yarn
-      command: npm install -g yarn
    - restore_cache:
       keys:
        - app-{{ checksum "package.json" }}
@@ -34,9 +31,6 @@ jobs:
    - run:
       name: Show current branch
       command: echo ${CURRENT_BRANCH}
-   - run:
-      name: Install yarn
-      command: npm install -g yarn
    - run:
       name: Installing AWS CLI
       working_directory: /
