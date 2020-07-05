@@ -52,7 +52,7 @@ jobs:
          - *install-dependencies
          - *save-cache
 
-linting:
+   linting:
       executor: app-executor
       steps:
          - checkout
@@ -61,48 +61,47 @@ linting:
          - run:
             name: Run linting
             command: yarn run lint
-
  
- deploy-to-aws-s3:
-   executor: app-executor
-   steps:
-      - checkout
-      - *show-current-branch-name
-      - *install-aws-cli
-      - *build-project
-      - run:
-         name: Deploy to AWS S3
-         command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]
-            then
-            aws --region ${AWS_REGION} s3 sync ~/repo/build s3://${AWS_PRODUCTION_BUCKET} --delete
-            elif [ "${CIRCLE_BRANCH}" == "staging" ]
-            then
-            aws --region ${AWS_REGION} s3 sync ~/repo/build s3://${AWS_STAGING_BUCKET} --delete
-            else
-            aws --region ${AWS_REGION} s3 sync ~/repo/build s3://${AWS_DEV_BUCKET} --delete
-            fi
-  
- deploy-to-aws-cloudfront:
-   executor: app-executor
-   steps:
-      - checkout
-      - *show-current-branch-name
-      - *install-aws-cli
-      - *build-project
-      - run:
-         name: Deploy to AWS cloudfront
-         command: |
-            aws configure set preview.cloudfront true
-            if [ "${CIRCLE_BRANCH}" == "master" ]
-            then
-            aws cloudfront create-invalidation --distribution-id ${PRODUCTION_DISTRIBUTION_ID} --paths /\*
-            elif [ "${CIRCLE_BRANCH}" == "staging" ]
-            then
-            aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths /\*
-            else
-            aws cloudfront create-invalidation --distribution-id ${DEV_DISTRIBUTION_ID} --paths /\*
-            fi
+   deploy-to-aws-s3:
+      executor: app-executor
+      steps:
+         - checkout
+         - *show-current-branch-name
+         - *install-aws-cli
+         - *build-project
+         - run:
+            name: Deploy to AWS S3
+            command: |
+               if [ "${CIRCLE_BRANCH}" == "master" ]
+               then
+               aws --region ${AWS_REGION} s3 sync ~/repo/build s3://${AWS_PRODUCTION_BUCKET} --delete
+               elif [ "${CIRCLE_BRANCH}" == "staging" ]
+               then
+               aws --region ${AWS_REGION} s3 sync ~/repo/build s3://${AWS_STAGING_BUCKET} --delete
+               else
+               aws --region ${AWS_REGION} s3 sync ~/repo/build s3://${AWS_DEV_BUCKET} --delete
+               fi
+   
+   deploy-to-aws-cloudfront:
+      executor: app-executor
+      steps:
+         - checkout
+         - *show-current-branch-name
+         - *install-aws-cli
+         - *build-project
+         - run:
+            name: Deploy to AWS cloudfront
+            command: |
+               aws configure set preview.cloudfront true
+               if [ "${CIRCLE_BRANCH}" == "master" ]
+               then
+               aws cloudfront create-invalidation --distribution-id ${PRODUCTION_DISTRIBUTION_ID} --paths /\*
+               elif [ "${CIRCLE_BRANCH}" == "staging" ]
+               then
+               aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths /\*
+               else
+               aws cloudfront create-invalidation --distribution-id ${DEV_DISTRIBUTION_ID} --paths /\*
+               fi
 
 
 workflows:
