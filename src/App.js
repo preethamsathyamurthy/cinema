@@ -5,10 +5,8 @@ import store from './redux/store';
 
 const App = () => {
   return (
-    <Provider store={store} >
-      <div className="App">
-        Redux
-      </div>
+    <Provider store={store}>
+      <div className="App">Redux</div>
     </Provider>
   );
 };
